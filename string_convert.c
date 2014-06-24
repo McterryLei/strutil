@@ -1,7 +1,17 @@
+/** 
+ * @file string_convert.c
+ * @author Terry Lei 
+ * @email <mcterrylei@gmail.com>
+ * @breif Implementation of types defined in string_convert.h
+ */
 #include "string_convert.h"
 #include <stdio.h>
 #include <stdbool.h>
 #include <assert.h>
+#include <ctype.h>
+#include <limits.h>
+
+#define SET_ERROR(err, code)    if (err) { *err = code; }
 
 int char2int(char c, int base) {
   assert(base > 0);
@@ -25,22 +35,29 @@ int char2int(char c, int base) {
 }
 
 int str2int(const char *str, int *err) {
-  int result = 0;
-  bool is_negative = false;
+  assert(str);
+
+  long long result = 0;
+  int sign = 1;
   int base = 10;
+  unsigned int max_int = INT_MAX;
   int i = 0;
 
-  assert(str);
-  assert(err);
+  SET_ERROR(err, 0);
 
-  *err = 0;
+  /* skip space */
+  while (isspace(str[i]))
+    i++;          
 
   /* check sign char */
-  if (str[i] == '-') {
+  if (str[i] == '-') { 
+    sign = -1;  
+    max_int = -INT_MIN;
     i++;
-    is_negative = true;
   }
   else if (str[i] == '+') {
+    sign = 1;  
+    max_int = INT_MAX;
     i++;
   }
 
@@ -60,17 +77,20 @@ int str2int(const char *str, int *err) {
   do {
     int tmp = char2int(str[i], base);
     if (tmp < 0) {
-      *err = -1;
-      return 0;
+      SET_ERROR(err, -1);
+      return result;
+    }
+
+    /* check if overflow or underflow */
+    if (result > (max_int - tmp) / base) {
+      SET_ERROR(err, -1)
+      return (int)max_int; 
     }
 
     result *= base;
     result += tmp;
-  } while (str[++i] != '\0');
+  } while (str[++i]);
 
-  if (is_negative)
-    result *= -1;
-
-  return result;
+  return result * sign;
 }
 

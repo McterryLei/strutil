@@ -1,7 +1,8 @@
 /** 
  * @file string_convert.h
- * @author Terry Lei <mcterrylei@gmail.com>
- * @breif Functions for converting string to value
+ * @author Terry Lei 
+ * @email <mcterrylei@gmail.com>
+ * @breif Functions for converting string to value to suit common cases.
  */
 #ifndef _STRING_CONVERT_H_
 #define _STRING_CONVERT_H_
@@ -20,7 +21,7 @@ int char2int(char c, int base);
  *
  * Support octal, decimal and hex.
  * @param str [IN] The string of number
- * @param err [OUT] Set to 0 if no error, or -1 if not a valid number
+ * @param err [OUT] Set to 0 if no error, or -1 if not a valid number; it could be NULL.
  * @return the converted value if succeeded
  * @return 0 if not a valid number
  */
