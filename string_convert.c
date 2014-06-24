@@ -10,8 +10,6 @@ int char2int(char c, int base) {
   if (base <= 10) {
     if (c >= '0' && c < '0'+base)
       return c - '0';
-    else
-      return -1;
   }
   else {
     /* hex */
@@ -21,8 +19,9 @@ int char2int(char c, int base) {
       return c - 'a' + 10;
     if (c >= 'A' && c <= 'F')
       return c - 'A' + 10;
-    return -1;
   }
+
+  return -1;
 }
 
 int str2int(const char *str, int *err) {
