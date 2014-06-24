@@ -1,7 +1,7 @@
 /** 
  * @file string_convert.c
  * @author Terry Lei 
- * @email <mcterrylei@gmail.com>
+ * @email mcterrylei@gmail.com
  * @breif Implementation of types defined in string_convert.h
  */
 #include "string_convert.h"

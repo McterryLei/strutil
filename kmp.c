@@ -1,7 +1,7 @@
 /**
  * @file kmp.c
  * @author Terry Lei
- * @email mcterrylei@google.com
+ * @email mcterrylei@gmail.com
  * @brief An implementable of KMP(Knuth–Morris–Pratt) algorithm
  */
 #include "kmp.h"
