@@ -15,6 +15,9 @@ void test_str2int(const char *str, int expected_value, int expected_err_code) {
 }
 
 int main(int argc, char **argv) {
+  /* pass err as NULL to igonre the error */
+  assert(str2int("123", NULL) == 123);
+
   test_str2int("123", 123, 0);  
   test_str2int("0xa2", 0xa2, 0);  
   test_str2int("-012", -012, 0);  
@@ -35,12 +38,14 @@ int main(int argc, char **argv) {
   sprintf(buf, "%d", INT_MIN);
   test_str2int(buf, INT_MIN, 0);
 
-  sprintf(buf, "%lld", (long long)INT_MIN-1);
-  test_str2int(buf, INT_MIN, -1);
-
   sprintf(buf, "%d", INT_MAX);
   test_str2int(buf, INT_MAX, 0);
 
+  /* underflow */
+  sprintf(buf, "%lld", (long long)INT_MIN-1);
+  test_str2int(buf, INT_MIN, -1);
+
+  /* overflow */
   sprintf(buf, "%lld", (long long)INT_MAX+1);
   test_str2int(buf, INT_MAX, -1);
 
