@@ -37,7 +37,7 @@ int char2int(char c, int base) {
 int str2int(const char *str, int *err) {
   assert(str);
 
-  long long result = 0;
+  int result = 0;
   int sign = 1;
   int base = 10;
   unsigned int max_int = INT_MAX;
