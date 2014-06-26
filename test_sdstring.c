@@ -20,6 +20,9 @@ int main(int argc, char **argv) {
     sdstring_catprintf(str, " (%s) : %032d", "32", 0);
     printf("%s (len=%d, avail=%d)\n", str->buf, sdstring_len(str), sdstring_avail(str));
 
+    sdstring_clear(str);
+    assert(sdstring_len(str) == 0);
+
     sdstring_release(str);
 
     printf("All tests succeeded!\n");

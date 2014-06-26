@@ -14,14 +14,12 @@
 
 sdstring * sdstring_new(const char *str) {
     sdstring *s = calloc(1, sizeof(sdstring));
-    int str_len = strlen(str);
+    sdstring_cat(s, str);
+    return s;
+}
 
-    sdstring_make_room_for(s, str_len);
-
-    strcpy(s->buf, str);
-    s->len = str_len;      
-    s->free -= str_len;
-    assert(s->free >= 0);
+sdstring * sdstring_empty() {
+    sdstring *s = calloc(1, sizeof(sdstring));
     return s;
 }
 
@@ -29,6 +27,10 @@ void sdstring_release(sdstring *s) {
     if (s->buf)
         free(s->buf);
     free(s);
+}
+
+void sdstring_clear(sdstring *s) {
+    s->len = 0;
 }
 
 int sdstring_len(sdstring *s) {
@@ -48,6 +50,7 @@ void sdstring_catlen(sdstring *s, const char *str, int addlen) {
     strcat(s->buf, str);
     s->len += addlen;
     s->free -= addlen;
+    assert(s->free >= 0);
 }
 
 void sdstring_catprintf(sdstring *s, const char *fmt, ...) {
@@ -72,6 +75,7 @@ void sdstring_catvprintf(sdstring *s, const char *fmt, va_list ap) {
     vsprintf(s->buf+s->len, fmt, ap2);
     s->len += addlen;
     s->free -= addlen;
+    assert(s->free >= 0);
     
     va_end(ap1);
     va_end(ap2);

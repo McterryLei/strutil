@@ -16,7 +16,10 @@ typedef struct tag_stdstring {
 } sdstring;
 
 sdstring * sdstring_new(const char *str);
+sdstring * sdstring_empty();
 void sdstring_release(sdstring *s);
+
+void sdstring_clear(sdstring *s);
 
 int  sdstring_len(sdstring *s);
 int  sdstring_avail(sdstring *s);
