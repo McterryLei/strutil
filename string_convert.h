@@ -7,6 +7,10 @@
 #ifndef _STRING_CONVERT_H_
 #define _STRING_CONVERT_H_
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /**
  * @brief Convert char to integer
  *
@@ -28,5 +32,9 @@ int char2int(char c, int base);
  * @return 0 if not a valid number
  */
 int str2int(const char *str, int *err);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

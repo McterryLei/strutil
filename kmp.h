@@ -7,6 +7,10 @@
 #ifndef _KMP_H_
 #define _KMP_H_
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 /**
  * @brief Search for the pattern in string
  * @return index of matched substring
@@ -35,5 +39,9 @@ int * kmp_gen_partial_match_table(const char *pattern);
 
 /** @brief Dump the partial match table to stdout */
 void kmp_dump_partial_match_table(const char *pattern, int *table);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

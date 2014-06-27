@@ -9,6 +9,10 @@
 
 #include <stdarg.h>
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 typedef struct tag_stdstring {
     int    len;
     int    free;
@@ -46,5 +50,9 @@ void sdstring_make_room_for(sdstring *s, int addlen);
  *   sdstring_increase_len(s, nhread);
  */
 void sdstring_increase_len(sdstring *s, int addlen);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif
