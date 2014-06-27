@@ -23,6 +23,11 @@ int main(int argc, char **argv) {
     assert(sdstring_startwith(str, "Hello"));
     assert(sdstring_endwith(str, "Tom"));
 
+    /* test search */
+    assert(sdstring_search(str, "He") == 0);
+    assert(sdstring_search(str, "Tom") == 5);
+    assert(sdstring_search(str, "Tomm") == -1);
+
     /* test substring */
     sdstring *substr = sdstring_empty();
     sdstring_substr(str, substr, 3, 5);

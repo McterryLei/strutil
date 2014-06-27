@@ -133,7 +133,7 @@ int sdstring_search(sdstring *s, const char *pattern) {
     char *p = strstr(s->buf, pattern);
     if (p == NULL)
         return -1;
-    return s->buf - p;
+    return p - s->buf;
 }
 
 void sdstring_substr(sdstring *s, sdstring *substr, int start, int count) {
