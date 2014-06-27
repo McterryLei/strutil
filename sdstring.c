@@ -45,6 +45,7 @@ void sdstring_release(sdstring *s) {
 
 void sdstring_clear(sdstring *s) {
     s->len = 0;
+    s->buf[0] = '\0';
 }
 
 int sdstring_len(sdstring *s) {
