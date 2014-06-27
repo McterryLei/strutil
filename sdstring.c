@@ -41,6 +41,19 @@ int sdstring_avail(sdstring *s) {
     return s->free;
 }
 
+bool sdstring_equal(sdstring *s1, sdstring *s2) {
+    if (s1->len != s2->len)
+        return false;
+    return memcmp(s1->buf, s2->buf, s1->len) == 0;
+}
+
+bool sdstring_equal_cstr(sdstring *s, const char *str) {
+    int len = strlen(str);
+    if (s->len != len)
+        return false;
+    return memcmp(s->buf, str, len) == 0;
+}
+
 void sdstring_cat(sdstring *s, const char *str) {
     sdstring_catlen(s, str, strlen(str));
 }
@@ -77,6 +90,20 @@ void sdstring_catvprintf(sdstring *s, const char *fmt, va_list ap) {
     va_end(ap2);
 }
 
+bool sdstring_startwith(sdstring *s, const char *pattern) {
+    int pattern_len = strlen(pattern);
+    if (s->len < pattern_len)
+        return false;
+    return memcmp(s->buf, pattern, pattern_len) == 0;
+}
+
+bool sdstring_endwith(sdstring *s, const char *pattern) {
+    int pattern_len = strlen(pattern);
+    if (s->len < pattern_len)
+        return false;
+    return memcmp(s->buf + s->len - pattern_len, pattern, pattern_len) == 0;
+}
+
 void sdstring_make_room_for(sdstring *s, int addlen) {
     if (s->free >= addlen)
         return;
@@ -99,7 +126,7 @@ void sdstring_increase_len(sdstring *s, int addlen) {
     assert(s->free >= addlen);
     s->len += addlen;
     s->free -= addlen;
-    assert(s->free >= 0);
+    assert(s->len >= 0);
     s->buf[s->len] = '\0';
 }
 

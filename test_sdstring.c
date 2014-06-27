@@ -9,16 +9,20 @@ int main(int argc, char **argv) {
 
     assert(sdstring_len(str) == strlen(msg));
     assert(sdstring_avail(str) == strlen(msg));
-    assert(strcmp(str->buf, msg) == 0);
+    assert(sdstring_equal_cstr(str, msg));
 
     int oldavail = sdstring_avail(str);
     sdstring_cat(str, "Tom");
     assert(sdstring_len(str) == strlen(msg)+strlen("Tom"));
     assert(sdstring_avail(str) == oldavail-strlen("Tom"));
-    assert(strcmp(str->buf, "HelloTom") == 0);
+    assert(sdstring_equal_cstr(str, "HelloTom"));
+
+    assert(sdstring_startwith(str, "Hello"));
+    assert(sdstring_endwith(str, "Tom"));
 
     sdstring_catprintf(str, " (%s) : %032d", "32", 0);
     printf("%s (len=%d, avail=%d)\n", str->buf, sdstring_len(str), sdstring_avail(str));
+
 
     sdstring_clear(str);
     assert(sdstring_len(str) == 0);
