@@ -13,14 +13,28 @@
 #define MAX_PREALLOC    (1024*1024)
 
 sdstring * sdstring_new(const char *str) {
+    return sdstring_newlen(str, strlen(str));
+}
+
+sdstring * sdstring_newlen(const char *str, int len) {
     sdstring *s = calloc(1, sizeof(sdstring));
-    sdstring_cat(s, str);
+    
+    if (len == 0) {
+        /* for we need one byte to store '\0', so we 
+         * should preallocate some memory 
+         */
+        sdstring_make_room_for(s, 8);
+        s->buf[0] = '\0';
+    }
+    else { 
+        sdstring_catlen(s, str, len);
+    }
+
     return s;
 }
 
 sdstring * sdstring_empty() {
-    sdstring *s = calloc(1, sizeof(sdstring));
-    return s;
+    return sdstring_newlen("", 0);
 }
 
 void sdstring_release(sdstring *s) {
@@ -54,11 +68,22 @@ bool sdstring_equal_cstr(sdstring *s, const char *str) {
     return memcmp(s->buf, str, len) == 0;
 }
 
+void sdstring_copy(sdstring *s, const char *str) {
+    sdstring_copylen(s, str, strlen(str));
+}
+
+void sdstring_copylen(sdstring *s, const char *str, int len) {
+    assert(len >= 0);
+    sdstring_clear(s);
+    sdstring_catlen(s, str, len);
+} 
+
 void sdstring_cat(sdstring *s, const char *str) {
     sdstring_catlen(s, str, strlen(str));
 }
 
 void sdstring_catlen(sdstring *s, const char *str, int addlen) {
+    assert(addlen >= 0);
     sdstring_make_room_for(s, addlen);
     memcpy(s->buf+s->len, str, addlen);
     sdstring_increase_len(s, addlen);
@@ -102,6 +127,48 @@ bool sdstring_endwith(sdstring *s, const char *pattern) {
     if (s->len < pattern_len)
         return false;
     return memcmp(s->buf + s->len - pattern_len, pattern, pattern_len) == 0;
+}
+
+int sdstring_search(sdstring *s, const char *pattern) {
+    char *p = strstr(s->buf, pattern);
+    if (p == NULL)
+        return -1;
+    return s->buf - p;
+}
+
+void sdstring_substr(sdstring *s, sdstring *substr, int start, int count) {
+    assert(substr);
+    assert(start >= 0);
+    assert(count >= 0);
+   
+    if (count > s->len - start) 
+        count = s->len - start;
+
+    sdstring_copylen(substr, s->buf+start, count);
+}
+
+void sdstring_trim(sdstring *s, int start, int count) {
+    assert(start >= 0);
+    assert(count >= 0);
+
+    if (count == 0)
+        return;
+
+    if (count > s->len - start)
+        count = s->len - start;
+
+    /*  
+     *  #####xxxxxx####
+     *       |     |
+     *       v     V
+     *     start  start+count
+     */
+    char *tmp_p = s->buf + start + count;
+    int tmp_count = s->len - start - count;
+    assert(tmp_count >= 0);
+
+    memmove(s->buf+start, tmp_p, tmp_count);
+    sdstring_increase_len(s, -count); 
 }
 
 void sdstring_make_room_for(sdstring *s, int addlen) {
