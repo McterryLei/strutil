@@ -86,9 +86,9 @@ void sdstring_make_room_for(sdstring *s, int addlen);
  * @example
  *   oldlen = sdstring_len(s);
  *   sdstring_make_room_for(s, BUFFER_SIZE);
- *   nread = read(fd, s+oldlen, BUFFER_SIZE);
+ *   nread = read(fd, s->buf+oldlen, BUFFER_SIZE);
  *   // omit handle error codes here
- *   sdstring_increase_len(s, nhread);
+ *   sdstring_increase_len(s, nread);
  */
 void sdstring_increase_len(sdstring *s, int addlen);
 
