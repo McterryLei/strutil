@@ -27,7 +27,9 @@ sdstring * sdstring_newlen(const char *str, int len) {
         s->buf[0] = '\0';
     }
     else { 
-        sdstring_catlen(s, str, len);
+        sdstring_make_room_for(s, len);
+        memcpy(s->buf, str, len);
+        sdstring_increase_len(s, len);
     }
 
     return s;
