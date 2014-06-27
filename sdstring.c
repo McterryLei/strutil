@@ -35,7 +35,7 @@ sdstring * sdstring_newlen(const char *str, int len) {
     return s;
 }
 
-sdstring * sdstring_empty() {
+sdstring * sdstring_empty(void) {
     return sdstring_newlen("", 0);
 }
 

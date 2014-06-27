@@ -22,7 +22,7 @@ typedef struct tag_stdstring {
 
 sdstring * sdstring_new(const char *str);
 sdstring * sdstring_newlen(const char *str, int len);
-sdstring * sdstring_empty(); /* create an empty string */
+sdstring * sdstring_empty(void); /* create an empty string */
 void sdstring_release(sdstring *s);
 
 /** set the string empty */
