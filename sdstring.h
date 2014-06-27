@@ -39,7 +39,7 @@ void sdstring_make_room_for(sdstring *s, int addlen);
  * writing something after the end of string.
  *
  * @example
- *   oldlen = sdslen(s);
+ *   oldlen = sdstring_len(s);
  *   sdstring_make_room_for(s, BUFFER_SIZE);
  *   nread = read(fd, s+oldlen, BUFFER_SIZE);
  *   // omit handle error codes here

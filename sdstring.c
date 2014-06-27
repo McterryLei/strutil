@@ -92,6 +92,7 @@ void sdstring_make_room_for(sdstring *s, int addlen) {
     /* expand */
     s->buf = realloc(s->buf, newlen+1); /* one more byte for '\0' */ 
     s->free = newlen - s->len;
+    assert(s->free >= 0);
 }
 
 void sdstring_increase_len(sdstring *s, int addlen) {
