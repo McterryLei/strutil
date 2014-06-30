@@ -50,14 +50,6 @@ void sdstring_clear(sdstring *s) {
     s->buf[0] = '\0';
 }
 
-int sdstring_len(sdstring *s) {
-    return s->len;
-}
-
-int sdstring_avail(sdstring *s) {
-    return s->free;
-}
-
 bool sdstring_equal(sdstring *s1, sdstring *s2) {
     if (s1->len != s2->len)
         return false;

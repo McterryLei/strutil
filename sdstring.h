@@ -28,8 +28,13 @@ void sdstring_release(sdstring *s);
 /** set the string empty */
 void sdstring_clear(sdstring *s);
 
-int  sdstring_len(sdstring *s);
-int  sdstring_avail(sdstring *s);
+static inline int sdstring_len(sdstring *s) {
+    return s->len;
+}
+
+static inline int sdstring_avail(sdstring *s) {
+    return s->free;
+}
 
 bool sdstring_equal(sdstring *s1, sdstring *s2);
 bool sdstring_equal_cstr(sdstring *s, const char *str);
