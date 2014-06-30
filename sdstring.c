@@ -125,7 +125,15 @@ bool sdstring_endwith(sdstring *s, const char *pattern) {
 }
 
 int sdstring_search(sdstring *s, const char *pattern) {
-    char *p = strstr(s->buf, pattern);
+    return sdstring_search_index(s, 0, pattern);
+}
+
+int sdstring_search_index(sdstring *s, int start, const char *pattern) {
+    assert(start >= 0);
+    if (start >= s->len)
+        return -1;
+    
+    char *p = strstr(s->buf + start, pattern);
     if (p == NULL)
         return -1;
     return p - s->buf;

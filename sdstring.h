@@ -14,10 +14,13 @@
 extern "C" {
 #endif
 
+/* Notice: Please DON'T access these members directly, 
+ * use its access function instead!
+ */  
 typedef struct tag_stdstring {
-    int    len;
-    int    free;
-    char * buf; /* store the string data */
+    int    len;  /* length of string */
+    int    free; /* avaiable bytes free to use */
+    char * buf;  /* store the string data */
 } sdstring;
 
 sdstring * sdstring_new(const char *str);
@@ -34,6 +37,10 @@ static inline int sdstring_len(sdstring *s) {
 
 static inline int sdstring_avail(sdstring *s) {
     return s->free;
+}
+
+static inline char * sdstring_cstr(sdstring *s) {
+    return s->buf;
 }
 
 bool sdstring_equal(sdstring *s1, sdstring *s2);
@@ -57,6 +64,14 @@ bool sdstring_endwith(sdstring *s, const char *pattern);
  * @return -1 if not found
  */
 int  sdstring_search(sdstring *s, const char *pattern);
+
+/**
+ * @brief Search the pattern in string start from the given position
+ * @param start The position to search 
+ * @return the index of first matched substring
+ * @return -1 if not found
+ */
+int  sdstring_search_index(sdstring *s, int start, const char *pattern);
 
 /**
  * @brief Copy the substring beginning with specified position
@@ -89,9 +104,9 @@ void sdstring_make_room_for(sdstring *s, int addlen);
  * right-trim the string.
  *
  * @example
- *   oldlen = sdstring_len(s);
  *   sdstring_make_room_for(s, BUFFER_SIZE);
- *   nread = read(fd, s->buf+oldlen, BUFFER_SIZE);
+ *   tail = sdstring_cstr(s) + sdstring_len(s);
+ *   nread = read(fd, tail, BUFFER_SIZE);
  *   // omit handle error codes here
  *   sdstring_increase_len(s, nread);
  */
