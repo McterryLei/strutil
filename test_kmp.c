@@ -5,6 +5,7 @@
 
 int main(int argc, char **argv) {
     const char str[] = "hello abcabd!";
+    assert(kmp_search_string(str, "") == 0);
     assert(kmp_search_string(str, "hello") == 0);
     assert(kmp_search_string(str, "world") == -1);
     assert(kmp_search_string(str, "abcabd") == 6);

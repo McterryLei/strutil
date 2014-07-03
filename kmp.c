@@ -26,6 +26,9 @@ int kmp_search_string_ex(const char *str, const char *pattern, int *partial_matc
     int i, j;
     int pattern_len = strlen(pattern);
 
+    if (pattern_len == 0)
+        return 0;
+
     for (i = 0, j = 0; i < strlen(str); i++) {
         while (j > 0 && str[i] != pattern[j]) 
             j = partial_match_table[j - 1];  /* rollback */
@@ -41,17 +44,20 @@ int kmp_search_string_ex(const char *str, const char *pattern, int *partial_matc
 }
 
 int * kmp_gen_partial_match_table(const char *pattern, int *table) {
-    int i, num_match;
-
     assert(pattern);
     assert(table);
 
-    table[0] = 0;
+    int i, num_match; 
+    int pattern_len = strlen(pattern);
+
+    if (pattern_len == 0)
+        return table;
 
     /* the key is to manage the max matched string;
      * if the next char is not matched, then rollback the matched
      * string via previous partial matched table.
      */
+    table[0] = 0;
     for (i = 1, num_match = 0; i < strlen(pattern); i++) {
         /* an example : 
          *   source string:  aaabbbaaa + pattern[i]         (i = 9)
