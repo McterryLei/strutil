@@ -11,17 +11,11 @@
 #include <assert.h>
 
 int kmp_search_string(const char *str, const char *pattern) {
-    int result = -1;
-    int *table; 
-    
-    table = kmp_gen_partial_match_table(pattern);
-    if (table == NULL)
-        return -1;
-
-    result = kmp_search_string_ex(str, pattern, table);
-
-    free(table);
-    return result;
+    assert(str);
+    assert(pattern);
+    int table[strlen(pattern)]; 
+    kmp_gen_partial_match_table(pattern, table);
+    return kmp_search_string_ex(str, pattern, table);
 }
 
 int kmp_search_string_ex(const char *str, const char *pattern, int *partial_match_table) {
@@ -46,12 +40,11 @@ int kmp_search_string_ex(const char *str, const char *pattern, int *partial_matc
     return -1;
 }
 
-int * kmp_gen_partial_match_table(const char *pattern) {
+int * kmp_gen_partial_match_table(const char *pattern, int *table) {
     int i, num_match;
 
-    int *table = malloc(strlen(pattern) * sizeof(int));
-    if (table == NULL)
-        return NULL;
+    assert(pattern);
+    assert(table);
 
     table[0] = 0;
 

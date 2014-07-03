@@ -10,7 +10,8 @@ int main(int argc, char **argv) {
     assert(kmp_search_string(str, "abcabd") == 6);
 
     const char *pattern = "ABCDABD";
-    kmp_dump_partial_match_table(pattern, kmp_gen_partial_match_table(pattern));
+    int table[strlen(pattern)];
+    kmp_dump_partial_match_table(pattern, kmp_gen_partial_match_table(pattern, table));
     return 0;
 }
 

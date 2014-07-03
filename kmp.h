@@ -32,10 +32,17 @@ int kmp_search_string_ex(const char *str, const char *pattern, int *partial_matc
 
 /** 
  * @brief Generate the KMP partial matched table
- * @return the array with same size as the pattern string
- * @return NULL if out of memory
+ *
+ * Warning: The length of <table> must be at least the same size as 
+ * the length of string <pattern>!
+ *
+ * Example:
+ *   int table[strlen(pattern)];
+ *   kmp_gen_partial_match_table(pattern, table);
+ * 
+ * @return the array with the table inputed
  */
-int * kmp_gen_partial_match_table(const char *pattern);
+int * kmp_gen_partial_match_table(const char *pattern, int *table);
 
 /** @brief Dump the partial match table to stdout */
 void kmp_dump_partial_match_table(const char *pattern, int *table);

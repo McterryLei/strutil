@@ -1,4 +1,4 @@
-CFLAGS = -Wall -g
+CFLAGS = -Wall -g -std=c99
 TARGETS = test_string_convert test_kmp test_sdstring
 
 all : $(TARGETS)
