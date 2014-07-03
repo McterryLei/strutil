@@ -144,6 +144,11 @@ void sdstring_substr(sdstring *s, sdstring *substr, int start, int count) {
     assert(substr);
     assert(start >= 0);
     assert(count >= 0);
+
+    if (start >= s->len) { /* overflow */
+        sdstring_clear(substr);
+        return;
+    }
    
     if (count > s->len - start) 
         count = s->len - start;
@@ -154,6 +159,11 @@ void sdstring_substr(sdstring *s, sdstring *substr, int start, int count) {
 void sdstring_trim(sdstring *s, int start, int count) {
     assert(start >= 0);
     assert(count >= 0);
+
+    if (start >= s->len) { /* overflow */
+        sdstring_clear(s);
+        return;
+    }
 
     if (count == 0)
         return;
